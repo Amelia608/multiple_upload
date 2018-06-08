@@ -15,6 +15,9 @@
 				<input type="file" multiple id="file" name="file[]">
 				<input type="button" id="btn" value="提交" />
 			</form>
+			<div id="img">
+				<img src=""/>
+			</div>
 		</div>
 
 		<script src="jquery.js"></script>
@@ -28,11 +31,19 @@
 					$.ajax({
 						url: "form.php",
 						type: "POST",
+						dataType:"json",
 						processData: false,
 						contentType: false,
 						data: formData,
 						success: function(res) {
-							console.log(res.res);
+							var str="";
+							var imgs=res.list;
+							for (var i=0;i<imgs.length;i++) {
+								var imgsrc='upload/'+imgs[i];
+								str+="<img src="+imgsrc+" width='120'>";
+							}
+							$("#img").append(str);
+							console.log(res.list);
 						}
 					});
 
